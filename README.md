@@ -1,7 +1,7 @@
-# logical_attribution_module
+# logicScore_module
 
-This directory contains a modularised version of the logical attribution
-pipeline that was previously implemented in a single `logical_attribution.py`
+This directory contains a modularised version of the logicScore
+pipeline that was previously implemented in a single `logicScore.py`
 script.
 
 ## Modules and stages
