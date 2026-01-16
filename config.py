@@ -10,23 +10,18 @@ from typing import Any, Dict, List, Optional
 import requests
 from openai import OpenAI
 
-# vLLM server (used for some local models)
-vllm_url = "http://115.24.15.245:8000/v1"
-vllm_key = "sk-115.24.5.11"
-vllm_client = OpenAI(base_url=vllm_url, api_key=vllm_key)
+
+
 
 # Standard chat-completions HTTP endpoint
-req_api_url = "https://yunwu.ai/v1/chat/completions"
-req_api_url_deepseek = "https://llmapi.paratera.com/v1/chat/completions"
+req_api_url = ""
+req_api_url_deepseek = ""
 
 # Default OpenAI-compatible HTTP endpoint
-api_url = "https://yunwu.ai/v1"
-api_key = "sk-1G8GE5giJwN8VvlhjNcnIU5UD690cxaQxUqzOznoY9jgwhWt"
+api_url = ""
+api_key = ""
 
-# DeepSeek endpoint
-deepseek_api_key = "sk-GPHG4QSlhx1R_tSkxg8IMw"
-deepseek_api_url = "https://llmapi.paratera.com/v1"
-deepseek_client = OpenAI(base_url=deepseek_api_url, api_key=deepseek_api_key)
+
 
 # Default GPT model used in evaluation prompts
 GPT_MODEL = "gpt-4o-2024-05-13"
@@ -114,21 +109,3 @@ def query_llm(
         return choice["content"]
     except Exception:  # pylint: disable=broad-except
         return None
-
-
-def call_nli_api(premise: str, hypothesis: str, max_new_tokens: int = 10,
-                 host: str = "http://10.108.16.15:9999") -> Dict[str, Any]:
-    """Thin wrapper around the local NLI service used in some experiments."""
-    url = f"{host}/nli"
-    payload = {
-        "premise": premise,
-        "hypothesis": hypothesis,
-        "max_new_tokens": max_new_tokens,
-    }
-    try:
-        response = requests.post(url, json=payload, timeout=30)
-        response.raise_for_status()
-        return response.json()
-    except requests.RequestException as e:  # pylint: disable=broad-except
-        return {"error": str(e)}
-
