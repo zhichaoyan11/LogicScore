@@ -19,7 +19,7 @@ from prompt import (
     entity_check_prompt,
 )
 
-from .config import client, vllm_client, deepseek_client
+from .config import client
 
 
 def parse_question_answering_response(response: str) -> Tuple[str, str]:
@@ -42,12 +42,8 @@ def question_answering(question: str, documents: str, args) -> Tuple[str, str]:
 
     model_name = args.generate_model.lower()
 
-    if "deepseek" in model_name or "qwen3" in model_name:
-        backend = deepseek_client
-    elif "llama" in model_name or "qwen" in model_name:
-        backend = vllm_client
-    else:
-        backend = client
+    
+    backend = client
 
     for _ in range(5):
         response = backend.chat.completions.create(
